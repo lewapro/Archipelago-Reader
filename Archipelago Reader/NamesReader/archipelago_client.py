@@ -2,7 +2,7 @@ import asyncio
 import websockets
 import json
 import uuid
-from config_manager import load_config
+from config_manager import load_config, runtime_config
 from message_processor import MessageProcessor
 from data_package_manager import DataPackageManager
 
@@ -18,8 +18,8 @@ class ArchipelagoClient:
     async def connect(self):
         """Establishes connection with Archipelago server"""
         try:
-            # Load current config
-            config = load_config()
+            # Load current config - use runtime if available
+            config = runtime_config if runtime_config else load_config()
             
             self.websocket = await websockets.connect(config["SERVER_URI"], max_size=config["MAX_MESSAGE_SIZE"])
             print(f"✅ Connected to Archipelago: {config['SERVER_URI']}")
@@ -28,7 +28,7 @@ class ArchipelagoClient:
                 self.gui.update_connection_status("Connected", True)
             
             self.connected = True
-            print(f"🔍 Filtering messages for players: {', '.join(self.target_players)}")
+            print(f"🔍 Filtering messages for players: {', '.join(self.target_players) if self.target_players else 'ALL PLAYERS'}")
             
             # Authenticate with current settings
             if await self.authenticate(self.websocket, config):
@@ -101,7 +101,7 @@ class ArchipelagoClient:
                             
                 except json.JSONDecodeError:
                     # Check if message contains target players
-                    if any(player in message for player in self.target_players) and \
+                    if (not self.target_players or any(player in message for player in self.target_players)) and \
                        any(keyword in message for keyword in ["sent", "received", "found"]):
                         print(f"📢 {message}")
                 except Exception as e:

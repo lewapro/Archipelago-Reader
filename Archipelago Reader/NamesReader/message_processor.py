@@ -162,8 +162,12 @@ class MessageProcessor:
             is_received_message = "received" in message_text.lower()
             is_found_message = "found" in message_text.lower()
             
-            # Check if message contains target players
-            target_players_found = any(player in players_in_message for player in self.target_players)
+            # Check if message contains target players or if no target players specified
+            if not self.target_players:
+                # Show all messages if no target players specified
+                target_players_found = True
+            else:
+                target_players_found = any(player in players_in_message for player in self.target_players)
             
             # Determine message type for GUI
             message_types = []
@@ -206,6 +210,10 @@ class MessageProcessor:
                 
                 # Remove duplicates
                 message_types = list(set(message_types))
+                
+                # If no target players specified, show in both sections
+                if not self.target_players:
+                    message_types = ["incoming", "outgoing"]
                 
                 # Send message to GUI for each determined type
                 for message_type_gui in message_types:

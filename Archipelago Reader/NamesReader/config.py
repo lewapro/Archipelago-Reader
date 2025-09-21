@@ -1,7 +1,13 @@
 # Application settings
 SERVER_URI = "ws://localhost:38281"
-PLAYER_NAME = "lewapro"
+PLAYER_NAME = "man"
 PASSWORD = ""
 GAME = "Manual_TeamFortress2_GP"
-TARGET_PLAYERS = ['lewapro']
-MAX_MESSAGE_SIZE = 10 * 1024 * 1024  # 10 MB
+TARGET_PLAYERS = ['man']
+MAX_MESSAGE_SIZE = 10485760
+MAX_MESSAGES = 1000
+FONT_SIZE = 12
+FONT_FAMILY = "Open Sans"
+BG_COLOR = "#0D141C"
+TEXT_COLOR = "#9CCAFF"
+WIDGET_BG_COLOR = "#242B33"
