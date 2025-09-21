@@ -11,7 +11,7 @@ A resisable window will open and config.py will be created near the executable.
 Top right corner is settings button.
 
 For localhost use ws://localhost:38281
-For public lobbies use wss://https://archipelago.gg:38281
+For public lobbies use wss://archipelago.gg:38281
 
 Enter the server url (ex: wss://archipelago.gg:51478, for localhost use ws://)
 Enter a single player name (any that you use)
